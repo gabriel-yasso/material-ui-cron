@@ -57,6 +57,9 @@ export default function CronExp() {
       <TextField
         variant='outlined'
         value={cronExpInput}
+        onChange={(event) => {
+          setCronExpInput(event.target.value)
+        }}
         onBlur={applyCronInput}
         onKeyDown={handleKeyDown}
         label=''

@@ -89,6 +89,9 @@ function CronExp() {
   }, _react["default"].createElement(_TextField["default"], {
     variant: "outlined",
     value: cronExpInput,
+    onChange: function onChange(event) {
+      setCronExpInput(event.target.value);
+    },
     onBlur: applyCronInput,
     onKeyDown: handleKeyDown,
     label: "",
