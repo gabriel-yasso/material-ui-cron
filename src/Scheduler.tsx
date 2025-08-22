@@ -82,6 +82,7 @@ export default function Scheduler(props: SchedulerProps) {
 
   React.useEffect(() => {
     setCronExpInput(cron)
+    setCronExp(cron)
     return () => {
       setCronExp('0 0 * * 1-5')
       resetCronExpInput()

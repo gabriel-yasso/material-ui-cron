@@ -31,9 +31,6 @@ export default function CronExp() {
   const [cronExp, setCronExp] = useRecoilState(cronExpState);
   const [cronExpInput, setCronExpInput] = useRecoilState(cronExpInputState);
   React.useEffect(() => {
-    setCronExp(cronExp);
-  }, []);
-  React.useEffect(() => {
     setCronExpInput(cronExp);
   }, [cronExp]);
   const updatCronExp = React.useCallback(() => {

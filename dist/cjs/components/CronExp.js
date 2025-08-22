@@ -69,10 +69,6 @@ function CronExp() {
       setCronExpInput = _useRecoilState4[1];
 
   _react["default"].useEffect(function () {
-    setCronExp(cronExp);
-  }, []);
-
-  _react["default"].useEffect(function () {
     setCronExpInput(cronExp);
   }, [cronExp]);
 

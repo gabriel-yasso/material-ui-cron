@@ -112,6 +112,7 @@ function Scheduler(props) {
 
   _react["default"].useEffect(function () {
     setCronExpInput(cron);
+    setCronExp(cron);
     return function () {
       setCronExp('0 0 * * 1-5');
       resetCronExpInput();
