@@ -37,18 +37,21 @@ export default function CronExp() {
 
   const [cronExpInput, setCronExpInput] = useRecoilState(cronExpInputState)
 
+  React.useEffect(() => {
+    setCronExp(cronExp)
+  }, [])
 
   React.useEffect(() => {
     setCronExpInput(cronExp)
   }, [cronExp])
 
-  const applyCronInput = React.useCallback(() => {
+  const updatCronExp = React.useCallback(() => {
     setCronExp(cronExpInput)
-  }, [cronExpInput, setCronExp])
+  }, [cronExpInput])
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      applyCronInput()
+      updatCronExp()
     }
   }
 
@@ -60,7 +63,7 @@ export default function CronExp() {
         onChange={(event) => {
           setCronExpInput(event.target.value)
         }}
-        onBlur={applyCronInput}
+        onBlur={updatCronExp}
         onKeyDown={handleKeyDown}
         label=''
         className={classes.cron}

@@ -69,16 +69,20 @@ function CronExp() {
       setCronExpInput = _useRecoilState4[1];
 
   _react["default"].useEffect(function () {
+    setCronExp(cronExp);
+  }, []);
+
+  _react["default"].useEffect(function () {
     setCronExpInput(cronExp);
   }, [cronExp]);
 
-  var applyCronInput = _react["default"].useCallback(function () {
+  var updatCronExp = _react["default"].useCallback(function () {
     setCronExp(cronExpInput);
-  }, [cronExpInput, setCronExp]);
+  }, [cronExpInput]);
 
   var handleKeyDown = function handleKeyDown(event) {
     if (event.key === 'Enter') {
-      applyCronInput();
+      updatCronExp();
     }
   };
 
@@ -92,7 +96,7 @@ function CronExp() {
     onChange: function onChange(event) {
       setCronExpInput(event.target.value);
     },
-    onBlur: applyCronInput,
+    onBlur: updatCronExp,
     onKeyDown: handleKeyDown,
     label: "",
     className: classes.cron,
