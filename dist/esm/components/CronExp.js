@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import useDebounce from '../hooks/useDebounce';
 import { cronExpState } from '../selector';
 import { cronExpInputState, isAdminState } from '../store';
 const useStyles = makeStyles({
@@ -31,15 +30,19 @@ export default function CronExp() {
   const isAdmin = useRecoilValue(isAdminState);
   const [cronExp, setCronExp] = useRecoilState(cronExpState);
   const [cronExpInput, setCronExpInput] = useRecoilState(cronExpInputState);
-  const debouncedCronExpInput = useDebounce(cronExpInput, 500);
   React.useEffect(() => {
     setCronExpInput(cronExp);
   }, [cronExp]);
-  React.useEffect(() => {
-    if (debouncedCronExpInput) {
-      setCronExp(cronExpInput);
+  const applyCronInput = React.useCallback(() => {
+    setCronExp(cronExpInput);
+  }, [cronExpInput, setCronExp]);
+
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      applyCronInput();
     }
-  }, [debouncedCronExpInput]);
+  };
+
   return React.createElement(Box, {
     display: "flex",
     p: 1,
@@ -47,9 +50,8 @@ export default function CronExp() {
   }, React.createElement(TextField, {
     variant: "outlined",
     value: cronExpInput,
-    onChange: event => {
-      setCronExpInput(event.target.value);
-    },
+    onBlur: applyCronInput,
+    onKeyDown: handleKeyDown,
     label: "",
     className: classes.cron,
     InputProps: {

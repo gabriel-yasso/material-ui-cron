@@ -15,8 +15,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _recoil = require("recoil");
 
-var _useDebounce = _interopRequireDefault(require("../hooks/useDebounce"));
-
 var _selector = require("../selector");
 
 var _store = require("../store");
@@ -70,17 +68,19 @@ function CronExp() {
       cronExpInput = _useRecoilState4[0],
       setCronExpInput = _useRecoilState4[1];
 
-  var debouncedCronExpInput = (0, _useDebounce["default"])(cronExpInput, 500);
-
   _react["default"].useEffect(function () {
     setCronExpInput(cronExp);
   }, [cronExp]);
 
-  _react["default"].useEffect(function () {
-    if (debouncedCronExpInput) {
-      setCronExp(cronExpInput);
+  var applyCronInput = _react["default"].useCallback(function () {
+    setCronExp(cronExpInput);
+  }, [cronExpInput, setCronExp]);
+
+  var handleKeyDown = function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      applyCronInput();
     }
-  }, [debouncedCronExpInput]);
+  };
 
   return _react["default"].createElement(_Box["default"], {
     display: "flex",
@@ -89,9 +89,8 @@ function CronExp() {
   }, _react["default"].createElement(_TextField["default"], {
     variant: "outlined",
     value: cronExpInput,
-    onChange: function onChange(event) {
-      setCronExpInput(event.target.value);
-    },
+    onBlur: applyCronInput,
+    onKeyDown: handleKeyDown,
     label: "",
     className: classes.cron,
     InputProps: {

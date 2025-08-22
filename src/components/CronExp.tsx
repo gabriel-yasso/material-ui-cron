@@ -37,26 +37,28 @@ export default function CronExp() {
 
   const [cronExpInput, setCronExpInput] = useRecoilState(cronExpInputState)
 
-  const debouncedCronExpInput = useDebounce(cronExpInput, 500)
 
   React.useEffect(() => {
     setCronExpInput(cronExp)
   }, [cronExp])
 
-  React.useEffect(() => {
-    if (debouncedCronExpInput) {
-      setCronExp(cronExpInput)
+  const applyCronInput = React.useCallback(() => {
+    setCronExp(cronExpInput)
+  }, [cronExpInput, setCronExp])
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      applyCronInput()
     }
-  }, [debouncedCronExpInput])
+  }
 
   return (
     <Box display='flex' p={1} m={1}>
       <TextField
         variant='outlined'
         value={cronExpInput}
-        onChange={(event) => {
-          setCronExpInput(event.target.value)
-        }}
+        onBlur={applyCronInput}
+        onKeyDown={handleKeyDown}
         label=''
         className={classes.cron}
         InputProps={{
